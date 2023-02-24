@@ -118,31 +118,30 @@ const sectionCenter = document.querySelector(".section-center");
 const container = document.querySelector(".btn-container");
 
 // load items
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", ()=> {
   displayMenuItems(menu);
   displayMenuButtons();
 });
 
-function displayMenuItems(menuItems) {
-  let displayMenu = menuItems
-    .map(function (item) {
+function displayMenuItems(menu) {
+  let displayMenu = menu
+    .map((obj)=>{
       return `<article class="menu-item">
-     <img src=${item.img} alt="menu item" class="photo">
+     <img src=${obj.img} alt="menu item" class="photo">
      <div class="item-info">
       <header>
-       <h4>${item.title}</h4>
-       <h4 class="price">$${item.price}</h4>
+       <h4>${obj.title}</h4>
+       <h4 class="price">$${obj.price}</h4>
       </header>
-       <p class="item-text">${item.desc}</p>
+       <p class="item-text">${obj.desc}</p>
      </div>
     </article>`;
-    });
-    displayMenu=displayMenu.join("");   ;
+    }).join("");   ;
   sectionCenter.innerHTML = displayMenu;
 }
 
   function displayMenuButtons() {
-    const categories = menu.reduce( function(values, item){
+    const categories = menu.reduce((values, item)=>{
         if (!values.includes(item.category)) {
           values.push(item.category);
         }
@@ -151,22 +150,23 @@ function displayMenuItems(menuItems) {
       ["all"]
     );
     const categoryBtns = categories
-      .map(function (category) {
+      .map((category)=> {
         return `<button class="filter-btn" data-id=${category}>${category}</button>`;
       })
       .join("");
     container.innerHTML = categoryBtns;
     const filterBtns = document.querySelectorAll(".filter-btn");
+
     // filter items
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener("click", function (e){
-        const category = e.currentTarget.dataset.id;
-        const menuCategory = menu.filter(function (menuItem) {
-          if (menuItem.category === category) {
-            return menuItem
+    filterBtns.forEach((btn)=>{
+      btn.addEventListener("click", (e)=>{
+        const categoryid = e.currentTarget.dataset.id;
+        const menuCategory = menu.filter((item)=>{
+          if (item.category === categoryid) {
+            return item
           }
         });
-        if (category === "all") {
+        if (categoryid === "all") {
           displayMenuItems(menu);
         } 
         else {
@@ -175,5 +175,4 @@ function displayMenuItems(menuItems) {
       });
     });
   }
-
 
